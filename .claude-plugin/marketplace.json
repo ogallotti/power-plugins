@@ -10,7 +10,7 @@
       "name": "team-powers",
       "description": "Fork of superpowers adapted for Agent Teams paradigm",
       "version": "1.0.0",
-      "source": ".",
+      "source": "./plugins/team-powers",
       "author": {
         "name": "Gallotti",
         "email": ""
