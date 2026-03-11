@@ -16,21 +16,25 @@ Adicione ao seu `~/.claude/settings.json`:
 }
 ```
 
-### 2. Instale o plugin
+### 2. Adicione o marketplace
 
 No Claude Code, execute:
 
 ```
-/plugin marketplace add ogallotti/team-powers
+/plugin marketplace add ogallotti/power-plugins
 ```
 
-Depois abra `/plugins`, selecione o marketplace **team-powers** e instale o plugin.
+### 3. Instale o plugin
 
-### 3. Reinicie o Claude Code
+```
+/plugin install team-powers@power-plugins
+```
+
+### 4. Reinicie o Claude Code
 
 Feche e abra uma nova sessão. O plugin carrega automaticamente via hook de SessionStart.
 
-### 4. Use normalmente
+### 5. Use normalmente
 
 As skills ativam sozinhas. Peça para construir algo e o agente vai usar brainstorming, TDD, composição dinâmica de equipes — tudo automaticamente.
 
@@ -50,30 +54,6 @@ O Claude Code introduziu o conceito de **Agent Teams** — um paradigma onde mú
 - **Reviews via messaging** entre teammates, mantendo contexto
 
 O Team Powers adapta todas as skills do Superpowers para este novo paradigma, adicionando uma capacidade fundamental: **composição dinâmica de equipes**. Em vez de um template fixo de "implementador + revisor", o agente analisa cada plano e decide quais especialistas são necessários — se o projeto envolve frontend e backend, cria um especialista para cada; se tem aspecto jurídico, cria um Legal Specialist; e assim por diante.
-
-## Instalação
-
-### Claude Code
-
-Registre o marketplace e instale:
-
-```bash
-/plugin marketplace add ogallotti/team-powers
-```
-
-Depois vá em `/plugins`, selecione o marketplace **team-powers** e instale.
-
-### Pré-requisito
-
-Agent Teams é experimental. Habilite no seu `settings.json`:
-
-```json
-{
-  "env": {
-    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
-  }
-}
-```
 
 ## O que há dentro
 
@@ -96,11 +76,20 @@ Agent Teams é experimental. Habilite no seu `settings.json`:
 | **test-driven-development** | Ciclo RED-GREEN-REFACTOR rigoroso |
 | **systematic-debugging** | Debugging em 4 fases com root cause analysis |
 | **verification-before-completion** | Evidência antes de qualquer claim de sucesso |
-| **requesting-team-review** | Code review estruturado |
 | **receiving-code-review** | Avaliação técnica de feedback (sem concordância performática) |
 | **using-git-worktrees** | Workspaces isolados para desenvolvimento paralelo |
 | **finishing-a-development-branch** | Merge, PR ou cleanup após conclusão |
 | **writing-skills** | Criação de novas skills seguindo TDD |
+
+### Outros componentes
+
+| Componente | Descrição |
+|-|-|
+| `agents/code-reviewer.md` | Agente especializado em code review |
+| `commands/` | Atalhos: `/brainstorm`, `/write-plan`, `/execute-plan` |
+| `hooks/` | SessionStart hook que injeta skills no contexto |
+| `lib/skills-core.js` | Runtime com descoberta dinâmica de skills |
+| `docs/` | Planos de exemplo e documentação técnica |
 
 ## Workflow básico
 

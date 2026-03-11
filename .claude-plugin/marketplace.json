@@ -1,6 +1,6 @@
 {
   "name": "power-plugins",
-  "description": "Fork of superpowers adapted for Agent Teams paradigm: dynamic specialist composition, shared task lists, inter-teammate reviews",
+  "description": "Claude Code plugins by Gallotti: Agent Teams, dynamic specialist composition, TDD, systematic debugging",
   "owner": {
     "name": "ogallotti",
     "email": ""
@@ -8,7 +8,7 @@
   "plugins": [
     {
       "name": "team-powers",
-      "description": "Fork of superpowers adapted for Agent Teams paradigm",
+      "description": "Agent Teams plugin: dynamic specialist composition, shared task lists, inter-teammate reviews, TDD, systematic debugging",
       "version": "1.0.0",
       "source": "./plugins/team-powers",
       "author": {

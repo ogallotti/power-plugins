@@ -1,6 +1,6 @@
 {
   "name": "team-powers",
-  "description": "Fork of superpowers adapted for Agent Teams paradigm: dynamic specialist composition, shared task lists, inter-teammate reviews",
+  "description": "Agent Teams plugin: dynamic specialist composition, shared task lists, inter-teammate reviews, TDD, systematic debugging",
   "version": "1.0.0",
   "author": {
     "name": "Gallotti"
