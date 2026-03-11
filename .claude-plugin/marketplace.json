@@ -1,0 +1,20 @@
+{
+  "name": "team-powers",
+  "description": "Fork of superpowers adapted for Agent Teams paradigm: dynamic specialist composition, shared task lists, inter-teammate reviews",
+  "owner": {
+    "name": "ogallotti",
+    "email": ""
+  },
+  "plugins": [
+    {
+      "name": "team-powers",
+      "description": "Fork of superpowers adapted for Agent Teams paradigm",
+      "version": "1.0.0",
+      "source": ".",
+      "author": {
+        "name": "Gallotti",
+        "email": ""
+      }
+    }
+  ]
+}
