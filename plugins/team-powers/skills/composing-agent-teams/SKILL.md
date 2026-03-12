@@ -80,7 +80,7 @@ Every team gets review capability:
 
 1. TeamCreate with descriptive team name
 2. Spawn each teammate with clear role, domain context, and task assignments
-3. Model selection: haiku for mechanical tasks, sonnet for integration, opus for reviews/architecture
+3. Model selection: always use the user's default model unless the user explicitly specifies otherwise
 4. Require plan approval for high-risk teammates
 
 ### Step 5: Create Shared Task List

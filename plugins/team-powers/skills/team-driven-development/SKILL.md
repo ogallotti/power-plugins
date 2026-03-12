@@ -101,13 +101,7 @@ After all tasks complete, reviewer does final review across ALL changes focusing
 
 ## Model Selection
 
-| Role Type | Model |
-|-|-|
-| Mechanical implementation | haiku |
-| Integration + judgment | sonnet |
-| Architecture + review | opus |
-
-Default: sonnet for specialists, opus for reviewers.
+Always use the user's default model for all teammates. Only use a different model if the user explicitly requests it — never infer or optimize model choice on their behalf.
 
 ## Red Flags
 
