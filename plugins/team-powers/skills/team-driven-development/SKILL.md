@@ -14,16 +14,15 @@ Execute implementation plans by composing a dynamic agent team with specialist t
 **Announce at start:** "I'm using team-driven-development to execute this plan."
 
 <IMPORTANT>
-This skill replaces subagent-driven-development for tasks that benefit from Agent Teams.
-If tasks are tightly coupled or you only need results (no inter-agent discussion), use subagents instead.
+This is the primary execution skill for plans with 2+ independent domains.
+If tasks are tightly coupled or sequential, use team-powers:executing-plans instead.
 </IMPORTANT>
 
 ## When to Use
 
 Use when you have an implementation plan with mostly independent tasks spanning 2+ domains of expertise, or when teammates need to share findings and coordinate.
 
-**vs. subagent-driven:** Team-driven when teammates need to communicate. Subagent-driven when only results matter.
-**vs. executing-plans:** Team-driven when tasks are independent and parallelizable. Executing-plans when sequential.
+**vs. executing-plans:** Team-driven when tasks are independent, parallelizable, and benefit from inter-agent communication. Executing-plans when sequential or single-domain.
 
 ## Prerequisites
 
@@ -70,7 +69,7 @@ DO NOT implement tasks yourself. DO NOT micromanage.
 
 ### Step 5: Review Process
 
-Reviews happen via inter-teammate messaging, NOT by dispatching separate subagents.
+Reviews happen via inter-teammate messaging (SendMessage), keeping context within the team.
 
 **Two-stage review for each task:**
 

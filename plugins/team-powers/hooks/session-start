@@ -6,7 +6,15 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]:-$0}")" && pwd)"
 PLUGIN_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
 
-using_tp_content=$(cat "${PLUGIN_ROOT}/skills/using-team-powers/SKILL.md" 2>&1 || echo "Error reading using-team-powers skill")
+SKILL_FILE="${PLUGIN_ROOT}/skills/using-team-powers/SKILL.md"
+if [ ! -f "$SKILL_FILE" ]; then
+    echo '{"error": "using-team-powers SKILL.md not found at '"$SKILL_FILE"'"}' >&2
+    exit 1
+fi
+using_tp_content=$(cat "$SKILL_FILE") || {
+    echo '{"error": "Failed to read using-team-powers SKILL.md"}' >&2
+    exit 1
+}
 
 escape_for_json() {
     local s="$1"

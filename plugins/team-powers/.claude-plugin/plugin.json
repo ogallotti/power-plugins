@@ -6,5 +6,6 @@
     "name": "Gallotti"
   },
   "license": "MIT",
-  "keywords": ["skills", "agent-teams", "tdd", "debugging", "collaboration", "best-practices", "workflows"]
+  "keywords": ["skills", "agent-teams", "tdd", "debugging", "collaboration", "best-practices", "workflows"],
+  "repository": "https://github.com/ogallotti/power-plugins"
 }

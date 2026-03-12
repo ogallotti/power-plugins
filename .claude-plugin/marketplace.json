@@ -2,9 +2,10 @@
   "name": "power-plugins",
   "description": "Claude Code plugins by Gallotti: Agent Teams, dynamic specialist composition, TDD, systematic debugging",
   "owner": {
-    "name": "ogallotti",
-    "email": ""
+    "name": "ogallotti"
   },
+  "category": "development-workflows",
+  "tags": ["agent-teams", "tdd", "debugging", "code-review", "skills", "collaboration"],
   "plugins": [
     {
       "name": "team-powers",
@@ -12,8 +13,7 @@
       "version": "1.0.0",
       "source": "./plugins/team-powers",
       "author": {
-        "name": "Gallotti",
-        "email": ""
+        "name": "Gallotti"
       }
     }
   ]

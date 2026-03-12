@@ -1,6 +1,6 @@
 ---
 name: requesting-team-review
-description: Use when a task is complete and needs review within an agent team - coordinates spec compliance and code quality reviews via teammate messaging instead of dispatching subagents
+description: Use when a task is complete and needs review within an agent team - coordinates spec compliance and code quality reviews via teammate messaging
 ---
 
 # Requesting Team Review

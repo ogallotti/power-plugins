@@ -49,7 +49,7 @@ This structure informs the task decomposition. Each task should produce self-con
 ```markdown
 # [Feature Name] Implementation Plan
 
-> **For agentic workers:** REQUIRED: Use team-powers:team-driven-development (if Agent Teams available) or team-powers:executing-plans to implement this plan. For simpler single-domain tasks, subagent-driven approach is still valid. Steps use checkbox (`- [ ]`) syntax for tracking.
+> **For agentic workers:** REQUIRED: Use team-powers:team-driven-development (if 2+ independent domains) or team-powers:executing-plans (if sequential/single-domain) to implement this plan. Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** [One sentence describing what this builds]
 
@@ -114,7 +114,7 @@ git commit -m "feat: add specific feature"
 
 After completing each chunk of the plan:
 
-1. Dispatch plan-document-reviewer subagent (see plan-document-reviewer-prompt.md) for the current chunk
+1. Send plan chunk to reviewer teammate, or dispatch a reviewer agent (see plan-document-reviewer-prompt.md) for the current chunk
    - Provide: chunk content, path to spec document
 2. If Issues Found:
    - Fix the issues in the chunk
@@ -137,12 +137,11 @@ After saving the plan:
 
 **Execution path depends on harness capabilities:**
 
-**If harness supports Agent Teams:**
+**If plan has 2+ independent domains (Agent Teams):**
 - **REQUIRED:** Use team-powers:team-driven-development
 - Do NOT offer a choice - team-driven is the standard approach for multi-domain plans
 - Dynamic specialist team + shared task list + inter-teammate reviews
-- For simpler single-domain tasks, subagent-driven approach is still valid
 
-**If harness does NOT have subagents:**
+**If plan is single-domain or sequential:**
 - Execute plan in current session using team-powers:executing-plans
 - Batch execution with checkpoints for review

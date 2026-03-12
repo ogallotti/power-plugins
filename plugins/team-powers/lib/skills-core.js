@@ -30,26 +30,40 @@ function extractFrontmatter(filePath) {
             }
 
             if (inFrontmatter) {
-                const match = line.match(/^(\w+):\s*(.*)$/);
+                const match = line.match(/^([\w-]+):\s*(.*)$/);
                 if (match) {
                     const [, key, value] = match;
                     switch (key) {
                         case 'name':
-                            name = value.trim();
+                            name = value.trim().replace(/^["']|["']$/g, '');
                             break;
                         case 'description':
-                            description = value.trim();
+                            description = value.trim().replace(/^["']|["']$/g, '');
                             break;
                     }
                 }
             }
         }
 
+        if (!name && !description) {
+            console.error(`[skills-core] No frontmatter found in ${filePath}`);
+        }
+
         return { name, description };
     } catch (error) {
+        if (error.code === 'ENOENT') {
+            console.error(`[skills-core] File not found: ${filePath}`);
+        } else if (error.code === 'EACCES') {
+            console.error(`[skills-core] Permission denied: ${filePath}`);
+        } else {
+            console.error(`[skills-core] Error reading ${filePath}: ${error.message}`);
+        }
         return { name: '', description: '' };
     }
 }
+
+// Cache for resolveSkillPath results
+const _resolveCache = new Map();
 
 /**
  * Find all SKILL.md files in a directory recursively.
@@ -65,30 +79,36 @@ function findSkillsInDir(dir, sourceType, maxDepth = 3) {
     if (!fs.existsSync(dir)) return skills;
 
     function recurse(currentDir, depth) {
-        if (depth > maxDepth) return;
+        if (depth >= maxDepth) return;
 
-        const entries = fs.readdirSync(currentDir, { withFileTypes: true });
+        let entries;
+        try {
+            entries = fs.readdirSync(currentDir, { withFileTypes: true });
+        } catch (error) {
+            console.error(`[skills-core] Cannot read directory ${currentDir}: ${error.message}`);
+            return;
+        }
 
         for (const entry of entries) {
+            if (!entry.isDirectory()) continue;
+
             const fullPath = path.join(currentDir, entry.name);
 
-            if (entry.isDirectory()) {
-                // Check for SKILL.md in this directory
-                const skillFile = path.join(fullPath, 'SKILL.md');
-                if (fs.existsSync(skillFile)) {
-                    const { name, description } = extractFrontmatter(skillFile);
-                    skills.push({
-                        path: fullPath,
-                        skillFile: skillFile,
-                        name: name || entry.name,
-                        description: description || '',
-                        sourceType: sourceType
-                    });
-                }
-
-                // Recurse into subdirectories
-                recurse(fullPath, depth + 1);
+            // Check for SKILL.md in this directory
+            const skillFile = path.join(fullPath, 'SKILL.md');
+            if (fs.existsSync(skillFile)) {
+                const { name, description } = extractFrontmatter(skillFile);
+                skills.push({
+                    path: fullPath,
+                    skillFile: skillFile,
+                    name: name || entry.name,
+                    description: description || '',
+                    sourceType: sourceType
+                });
             }
+
+            // Recurse into subdirectories
+            recurse(fullPath, depth + 1);
         }
     }
 
@@ -99,6 +119,7 @@ function findSkillsInDir(dir, sourceType, maxDepth = 3) {
 /**
  * Resolve a skill name to its file path, handling shadowing
  * (personal skills override team-powers skills).
+ * Results are cached for performance within the same process.
  *
  * @param {string} skillName - Name like "team-powers:brainstorming" or "my-skill"
  * @param {string} teamPowersDir - Path to team-powers skills directory
@@ -106,16 +127,23 @@ function findSkillsInDir(dir, sourceType, maxDepth = 3) {
  * @returns {{skillFile: string, sourceType: string, skillPath: string} | null}
  */
 function resolveSkillPath(skillName, teamPowersDir, personalDir) {
+    const cacheKey = `${skillName}|${teamPowersDir}|${personalDir}`;
+    if (_resolveCache.has(cacheKey)) {
+        return _resolveCache.get(cacheKey);
+    }
+
     // Strip team-powers: prefix if present
     const forceTeamPowers = skillName.startsWith('team-powers:');
     const actualSkillName = forceTeamPowers ? skillName.replace(/^team-powers:/, '') : skillName;
+
+    let result = null;
 
     // Try personal skills first (unless explicitly team-powers:)
     if (!forceTeamPowers && personalDir) {
         const personalPath = path.join(personalDir, actualSkillName);
         const personalSkillFile = path.join(personalPath, 'SKILL.md');
         if (fs.existsSync(personalSkillFile)) {
-            return {
+            result = {
                 skillFile: personalSkillFile,
                 sourceType: 'personal',
                 skillPath: actualSkillName
@@ -124,11 +152,11 @@ function resolveSkillPath(skillName, teamPowersDir, personalDir) {
     }
 
     // Try team-powers skills
-    if (teamPowersDir) {
+    if (!result && teamPowersDir) {
         const teamPowersPath = path.join(teamPowersDir, actualSkillName);
         const teamPowersSkillFile = path.join(teamPowersPath, 'SKILL.md');
         if (fs.existsSync(teamPowersSkillFile)) {
-            return {
+            result = {
                 skillFile: teamPowersSkillFile,
                 sourceType: 'team-powers',
                 skillPath: actualSkillName
@@ -136,21 +164,29 @@ function resolveSkillPath(skillName, teamPowersDir, personalDir) {
         }
     }
 
-    return null;
+    _resolveCache.set(cacheKey, result);
+    return result;
+}
+
+/**
+ * Clear the resolve cache. Useful when skills may have changed on disk.
+ */
+function clearResolveCache() {
+    _resolveCache.clear();
 }
 
 /**
  * Check if a git repository has updates available.
  *
  * @param {string} repoDir - Path to git repository
+ * @param {number} timeoutMs - Timeout for git operations in milliseconds (default: 5000)
  * @returns {boolean} - True if updates are available
  */
-function checkForUpdates(repoDir) {
+function checkForUpdates(repoDir, timeoutMs = 5000) {
     try {
-        // Quick check with 3 second timeout to avoid delays if network is down
         const output = execSync('git fetch origin && git status --porcelain=v1 --branch', {
             cwd: repoDir,
-            timeout: 3000,
+            timeout: timeoutMs,
             encoding: 'utf8',
             stdio: 'pipe'
         });
@@ -203,6 +239,7 @@ export {
     extractFrontmatter,
     findSkillsInDir,
     resolveSkillPath,
+    clearResolveCache,
     checkForUpdates,
     stripFrontmatter
 };

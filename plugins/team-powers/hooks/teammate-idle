@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+# TeammateIdle hook: remind idle teammates to check for unclaimed tasks
+# Exit code 2 = send feedback and keep teammate working
+# Exit code 0 = allow teammate to go idle
+
+set -euo pipefail
+
+# Read hook input from stdin
+INPUT=$(cat)
+
+# Check if there are pending tasks mentioned in the context
+# This is a lightweight reminder - teammates should self-manage
+cat <<'EOF'
+{
+  "hookSpecificOutput": {
+    "hookEventName": "TeammateIdle",
+    "feedback": "Before going idle, check TaskList for unclaimed tasks. If all tasks are complete or blocked, you may go idle."
+  }
+}
+EOF
+
+exit 2

@@ -1,6 +1,6 @@
 ---
 name: brainstorming
-description: "You MUST use this before any creative work - creating features, building components, adding functionality, or modifying behavior. Explores user intent, requirements and design before implementation."
+description: Use when creating features, building components, adding functionality, or modifying behavior - explores user intent, requirements and design before implementation
 ---
 
 # Brainstorming Ideas Into Designs
@@ -27,7 +27,7 @@ You MUST create a task for each of these items and complete them in order:
 4. **Propose 2-3 approaches** — with trade-offs and your recommendation
 5. **Present design** — in sections scaled to their complexity, get user approval after each section
 6. **Write design doc** — save to `docs/team-powers/specs/YYYY-MM-DD-<topic>-design.md` and commit
-7. **Spec review loop** — send spec to reviewer teammate (or dispatch subagent if not in a team); fix issues and re-dispatch until approved (max 5 iterations, then surface to human)
+7. **Spec review loop** — send spec to reviewer teammate (or dispatch a reviewer agent if not in a team); fix issues and re-review until approved (max 5 iterations, then surface to human)
 8. **User reviews written spec** — ask user to review the spec file before proceeding
 9. **Transition to implementation** — invoke writing-plans skill to create implementation plan
 
@@ -119,7 +119,7 @@ digraph brainstorming {
 **Spec Review Loop:**
 After writing the spec document:
 
-1. Send spec to reviewer teammate (or dispatch spec-document-reviewer subagent if not in a team — see spec-document-reviewer-prompt.md)
+1. Send spec to reviewer teammate (or dispatch a reviewer agent if not in a team — see spec-document-reviewer-prompt.md)
 2. If Issues Found: fix, re-dispatch, repeat until Approved
 3. If loop exceeds 5 iterations, surface to human for guidance
 

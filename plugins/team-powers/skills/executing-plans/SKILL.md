@@ -11,7 +11,7 @@ Load plan, review critically, execute all tasks, report when complete.
 
 **Announce at start:** "I'm using the executing-plans skill to implement this plan."
 
-**Note:** Tell your human partner that team-powers works much better with access to Agent Teams or subagents. The quality of its work will be significantly higher if run on a platform with subagent support (such as Claude Code or Codex). If Agent Teams are available, use team-powers:team-driven-development instead of this skill. For multi-domain plans, prefer team-powers:team-driven-development which uses Agent Teams for parallel specialist work.
+**Note:** For multi-domain plans with 2+ independent areas, prefer team-powers:team-driven-development which uses Agent Teams for parallel specialist work with inter-teammate coordination. This skill is for single-domain or sequential plans.
 
 ## The Process
 

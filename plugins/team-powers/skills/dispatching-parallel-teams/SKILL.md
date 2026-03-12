@@ -67,15 +67,17 @@ Working agreement: Each investigator tests their theory AND tries to disprove th
 The debate structure produces more reliable root cause identification than sequential investigation.
 ```
 
-## vs. dispatching-parallel-agents (subagents)
+## vs. parallel subagents
 
-| Aspect | Parallel Teams | Parallel Subagents |
+| Aspect | Agent Teams | Subagents |
 |-|-|-|
-| Communication | Specialists talk to each other | Only report to caller |
+| Communication | Teammates message each other directly | Only report results to caller |
 | Knowledge sharing | Real-time via messaging | After completion only |
 | Challenging findings | Adversarial debate possible | No inter-agent discussion |
-| Cost | Higher (persistent sessions) | Lower (ephemeral) |
-| Best for | Complex investigation, competing hypotheses | Independent focused tasks |
+| Cost | Higher (each teammate is a separate instance) | Lower (results summarized back) |
+| Best for | Complex investigation, competing hypotheses | Focused tasks where only the result matters |
+
+**Transition point:** If parallel subagents need to communicate with each other, Agent Teams are the natural next step.
 
 ## Integration
 

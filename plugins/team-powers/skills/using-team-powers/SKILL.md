@@ -3,9 +3,9 @@ name: using-team-powers
 description: Use when starting any conversation - establishes how to find and use team-powers skills, requiring Skill tool invocation before ANY response including clarifying questions
 ---
 
-<SUBAGENT-STOP>
+<AGENT-STOP>
 If you were dispatched as a subagent or teammate to execute a specific task, skip this skill.
-</SUBAGENT-STOP>
+</AGENT-STOP>
 
 <EXTREMELY-IMPORTANT>
 If you think there is even a 1% chance a skill might apply to what you are doing, you ABSOLUTELY MUST invoke the skill.
@@ -72,7 +72,9 @@ Instructions say WHAT, not HOW. "Add X" or "Fix Y" doesn't mean skip workflows.
 
 This plugin uses the **Agent Teams** paradigm (TeamCreate, TaskCreate, SendMessage) for complex multi-domain work. Key difference from subagents:
 
-- **Agent Teams:** Teammates communicate with each other, shared task list, self-coordination. Use for 2+ expertise domains, parallel work needing discussion.
-- **Subagents:** Report results back only. Use for focused tasks where only the result matters.
+- **Agent Teams:** Teammates communicate with each other, shared task list, self-coordination. Use for 2+ expertise domains, parallel work needing discussion and collaboration.
+- **Subagents:** Isolated workers that report results back only. Use for focused tasks where only the result matters (research, review, verification). Lower token cost.
+
+**Transition point:** If parallel subagents need to communicate with each other or you're hitting context limits, Agent Teams are the natural next step.
 
 When the task involves multiple areas of expertise, use `team-powers:composing-agent-teams` to dynamically decide team composition.

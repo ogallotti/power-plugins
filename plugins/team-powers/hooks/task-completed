@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+# TaskCompleted hook: remind to verify before marking complete
+# Exit code 2 = prevent completion, send feedback
+# Exit code 0 = allow completion
+
+set -euo pipefail
+
+# Read hook input from stdin
+INPUT=$(cat)
+
+# Allow completion but add a reminder about verification
+# This is advisory - the verification-before-completion skill enforces the discipline
+exit 0
