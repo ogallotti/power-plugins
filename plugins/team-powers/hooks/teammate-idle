@@ -1,36 +1,29 @@
 #!/usr/bin/env bash
-# TeammateIdle hook: remind idle teammates to check for unclaimed tasks
-# Exit code 2 = send feedback and keep teammate working
-# Exit code 0 = allow teammate to go idle
+# TeammateIdle hook
+# Exit 2 = send feedback, keep teammate working
+# Exit 0 = allow idle
 
 set -euo pipefail
 
-# Read hook input from stdin
 INPUT=$(cat)
 
-# Extract team name from the hook input
-TEAM_NAME=$(echo "$INPUT" | grep -o '"team_name" *: *"[^"]*"' | head -1 | sed 's/.*: *"//;s/"//' 2>/dev/null || true)
+# Extract a JSON string field from stdin/file
+json_val() { grep -o "\"$1\" *: *\"[^\"]*\"" "$2" 2>/dev/null | head -1 | sed 's/.*: *"//;s/"//'; }
 
-# Check if there are pending unassigned tasks in the task directory
-HAS_PENDING=false
+# Get team name via bash regex (no subprocess)
+TEAM_NAME=""
+if [[ "$INPUT" =~ \"team_name\"[[:space:]]*:[[:space:]]*\"([^\"]+)\" ]]; then
+    TEAM_NAME="${BASH_REMATCH[1]}"
+fi
+
 if [[ -n "$TEAM_NAME" ]]; then
     TASK_DIR="$HOME/.claude/tasks/$TEAM_NAME"
     if [[ -d "$TASK_DIR" ]]; then
-        # Look for tasks with status "pending" and no owner
         shopt -s nullglob
         for f in "$TASK_DIR"/*.json; do
-            status=$(grep -o '"status" *: *"[^"]*"' "$f" 2>/dev/null | head -1 | sed 's/.*: *"//;s/"//' || true)
-            owner=$(grep -o '"owner" *: *"[^"]*"' "$f" 2>/dev/null | head -1 | sed 's/.*: *"//;s/"//' || true)
-            if [[ "$status" == "pending" && -z "$owner" ]]; then
-                HAS_PENDING=true
-                break
-            fi
-        done
-    fi
-fi
-
-if [[ "$HAS_PENDING" == true ]]; then
-    cat <<'EOF'
+            [[ "$(json_val status "$f")" == "pending" ]] || continue
+            if [[ -z "$(json_val owner "$f" || true)" ]]; then
+                cat <<'EOF'
 {
   "hookSpecificOutput": {
     "hookEventName": "TeammateIdle",
@@ -38,8 +31,10 @@ if [[ "$HAS_PENDING" == true ]]; then
   }
 }
 EOF
-    exit 2
+                exit 2
+            fi
+        done
+    fi
 fi
 
-# No pending tasks — allow idle
 exit 0
