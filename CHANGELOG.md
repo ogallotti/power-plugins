@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.0.3] - 2026-03-20
+
+### Refactored
+- **TeammateIdle hook**: Simplified with `json_val` helper, bash regex for team name extraction, and short-circuit on status check. Reduced subprocess forks and eliminated code duplication.
+
 ## [1.0.2] - 2026-03-20
 
 ### Fixed
