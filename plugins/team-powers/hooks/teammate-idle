@@ -8,15 +8,38 @@ set -euo pipefail
 # Read hook input from stdin
 INPUT=$(cat)
 
-# Check if there are pending tasks mentioned in the context
-# This is a lightweight reminder - teammates should self-manage
-cat <<'EOF'
+# Extract team name from the hook input
+TEAM_NAME=$(echo "$INPUT" | grep -o '"team_name" *: *"[^"]*"' | head -1 | sed 's/.*: *"//;s/"//' 2>/dev/null || true)
+
+# Check if there are pending unassigned tasks in the task directory
+HAS_PENDING=false
+if [[ -n "$TEAM_NAME" ]]; then
+    TASK_DIR="$HOME/.claude/tasks/$TEAM_NAME"
+    if [[ -d "$TASK_DIR" ]]; then
+        # Look for tasks with status "pending" and no owner
+        shopt -s nullglob
+        for f in "$TASK_DIR"/*.json; do
+            status=$(grep -o '"status" *: *"[^"]*"' "$f" 2>/dev/null | head -1 | sed 's/.*: *"//;s/"//' || true)
+            owner=$(grep -o '"owner" *: *"[^"]*"' "$f" 2>/dev/null | head -1 | sed 's/.*: *"//;s/"//' || true)
+            if [[ "$status" == "pending" && -z "$owner" ]]; then
+                HAS_PENDING=true
+                break
+            fi
+        done
+    fi
+fi
+
+if [[ "$HAS_PENDING" == true ]]; then
+    cat <<'EOF'
 {
   "hookSpecificOutput": {
     "hookEventName": "TeammateIdle",
-    "feedback": "Before going idle, check TaskList for unclaimed tasks. If all tasks are complete or blocked, you may go idle."
+    "feedback": "There are unclaimed pending tasks. Check TaskList and claim one before going idle."
   }
 }
 EOF
+    exit 2
+fi
 
-exit 2
+# No pending tasks — allow idle
+exit 0
