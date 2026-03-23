@@ -7,7 +7,7 @@ description: Use when executing implementation plans with independent tasks that
 
 ## Overview
 
-Execute implementation plans by composing a dynamic agent team with specialist teammates, shared task list, and inter-teammate reviews.
+Execute implementation plans by composing a dynamic agent team with specialist teammates, shared task list, and inter-teammate reviews. Each teammate receives precisely crafted context for their domain — never your session history. This keeps them focused and preserves your context for coordination.
 
 **Core principle:** Dynamic specialists + shared task list + teammate reviews = high quality, parallel execution.
 

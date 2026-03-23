@@ -95,7 +95,7 @@ FOR EACH task in the plan:
 
 ### Step 6: Spawn Prompt Template
 
-Each specialist gets a targeted spawn prompt:
+Each specialist gets a targeted spawn prompt with precisely crafted context — never your session history. Construct exactly what they need to succeed at their task. This keeps them focused and preserves your own context for coordination.
 
 ```
 You are the [ROLE] for this team. Your expertise: [DOMAIN].

@@ -9,7 +9,7 @@ description: Use when a task is complete and needs review within an agent team -
 
 Coordinate code reviews within an agent team using inter-teammate messaging. Reviews stay in-context because reviewer teammates persist across tasks.
 
-**Core principle:** Two-stage review via messaging. Spec first, quality second. Never skip either.
+**Core principle:** Two-stage review via messaging. Spec first, quality second. Never skip either. When dispatching reviewers, provide precisely crafted review context — never your session history.
 
 ## When to Use
 
