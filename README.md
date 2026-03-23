@@ -92,6 +92,7 @@ O Team Powers adapta todas as skills do Superpowers para este novo paradigma, ad
 | `hooks/session-start` | Injeta skills no contexto da sessão |
 | `hooks/teammate-idle` | Quality gate: lembra teammates de checar tasks antes de ficar idle |
 | `lib/skills-core.js` | Runtime com descoberta dinâmica de skills, cache de resolução e skill shadowing |
+| `skills/brainstorming/scripts/` | Brainstorm visual companion: servidor zero-dep (Node.js built-ins apenas) com WebSocket, auto-exit por inatividade e suporte cross-platform |
 | `docs/` | Planos de exemplo e documentação técnica |
 
 ## Workflow básico

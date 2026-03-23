@@ -1,5 +1,33 @@
 # Changelog
 
+## [1.1.0] - 2026-03-23
+
+### Upstream Sync
+Portadas todas as mudanças relevantes do [Superpowers](https://github.com/obra/superpowers) v5.0.2–v5.0.5 (30 commits, releases de 12–19/mar).
+
+### Added
+- **Zero-dep brainstorm server** (`server.cjs`): substitui o servidor Express+ws+chokidar por implementação usando apenas Node.js built-ins (http, crypto, fs). Elimina necessidade de `npm install` para usuários do marketplace.
+- **Server lifecycle**: auto-exit após 30 minutos de inatividade e monitoramento de PID do processo pai para prevenir servidores órfãos.
+- **Windows/Git Bash support**: auto-foreground em ambientes MSYS2/Git Bash, skip de PID namespace no Windows.
+- **Context isolation principle**: adicionado a todas as skills de delegação — agentes recebem contexto precisamente construído, nunca o histórico da sessão do caller.
+- **Platform-specific launch docs**: instruções de lançamento do brainstorm server por plataforma (Claude Code macOS/Linux/Windows, Codex, Gemini CLI).
+
+### Changed
+- **Review loops**: máximo de iterações reduzido de 5 para 3 em brainstorming e writing-plans.
+- **Spec reviewer**: calibração elevada — removidas categorias "Coverage" e "Architecture", adicionada seção "Calibration" que só bloqueia por gaps sérios.
+- **Plan reviewer**: review single-pass do plano completo em vez de per-chunk, mesma calibração do spec reviewer.
+- **Writing-plans**: review loop simplificado para single-pass com context isolation.
+
+### Fixed
+- **bash 5.3+ hang**: substituição de heredoc por `printf` no hook `session-start` — heredocs com expansão de variável >512 bytes causavam hang no bash 5.3+.
+- **SessionStart no --resume**: removido `resume` do matcher para evitar reinjeção redundante do contexto.
+- **POSIX compatibility**: `BASH_SOURCE` → `$0`, shebangs portáveis (`#!/usr/bin/env bash`).
+- **stop-server.sh**: graceful shutdown com SIGTERM → wait 2s → SIGKILL fallback.
+- **frame-template.html**: adicionado `<meta charset="utf-8">`.
+
+### Removed
+- `index.js`, `package.json`, `package-lock.json` do brainstorm server (substituídos por `server.cjs`).
+
 ## [1.0.3] - 2026-03-20
 
 ### Refactored
