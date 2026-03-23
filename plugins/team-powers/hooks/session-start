@@ -3,7 +3,7 @@
 
 set -euo pipefail
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]:-$0}")" && pwd)"
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 PLUGIN_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
 
 SKILL_FILE="${PLUGIN_ROOT}/skills/using-team-powers/SKILL.md"
@@ -30,20 +30,9 @@ using_tp_escaped=$(escape_for_json "$using_tp_content")
 session_context="<EXTREMELY_IMPORTANT>\nYou have team-powers.\n\n**Below is the full content of your 'team-powers:using-team-powers' skill - your introduction to using skills. For all other skills, use the 'Skill' tool:**\n\n${using_tp_escaped}\n\n</EXTREMELY_IMPORTANT>"
 
 if [ -n "${CLAUDE_PLUGIN_ROOT:-}" ]; then
-  cat <<EOF
-{
-  "hookSpecificOutput": {
-    "hookEventName": "SessionStart",
-    "additionalContext": "${session_context}"
-  }
-}
-EOF
+  printf '{"hookSpecificOutput":{"hookEventName":"SessionStart","additionalContext":"%s"}}' "$session_context"
 else
-  cat <<EOF
-{
-  "additional_context": "${session_context}"
-}
-EOF
+  printf '{"additional_context":"%s"}' "$session_context"
 fi
 
 exit 0
