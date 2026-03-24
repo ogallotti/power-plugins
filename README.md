@@ -2,7 +2,29 @@
 
 Fork do [Superpowers](https://github.com/obra/superpowers) adaptado para o paradigma de **Agent Teams** do Claude Code.
 
-## Quick Start
+## Instalação Rápida
+
+Cole este prompt no Claude Code:
+
+```
+Instale o plugin team-powers seguindo estes passos exatos:
+
+1. Verifique se o Superpowers está instalado executando `/plugins` (ou lendo a saída de `claude plugins list`). Se estiver, desabilite-o para evitar conflitos de skills duplicadas.
+
+2. Adicione o marketplace: `/plugin marketplace add ogallotti/power-plugins`
+
+3. Instale o plugin: `/plugin install team-powers@power-plugins`
+
+4. Habilite Agent Teams adicionando a variável de ambiente CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1 nas settings do usuário (use a skill update-config se disponível, ou edite ~/.claude/settings.json adicionando {"env":{"CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS":"1"}} — faça merge com o conteúdo existente, não sobrescreva).
+
+5. Confirme que está tudo certo e peça para eu reiniciar a sessão.
+```
+
+Depois de reiniciar, as skills ativam sozinhas. Peça para construir algo e o agente vai usar brainstorming, TDD, composição dinâmica de equipes — tudo automaticamente.
+
+---
+
+## Quick Start (manual)
 
 ### 1. Habilite Agent Teams
 
