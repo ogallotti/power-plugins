@@ -24,12 +24,23 @@ Use when you have an implementation plan with mostly independent tasks spanning 
 
 **vs. executing-plans:** Team-driven when tasks are independent, parallelizable, and benefit from inter-agent communication. Executing-plans when sequential or single-domain.
 
-## Prerequisites
-
-1. **Workspace isolation:** Use `team-powers:using-git-worktrees` to create isolated workspace
-2. **Tools:** Fetch TeamCreate, TaskCreate, SendMessage, TaskList, TaskUpdate via ToolSearch
-
 ## The Process
+
+### Step 0: Ensure Workspace Isolation
+
+Before anything else, check if you're already in an isolated worktree:
+
+```bash
+git worktree list
+```
+
+If the current directory is the **main working tree** and you're on `main`/`master`:
+- **REQUIRED:** Invoke `team-powers:using-git-worktrees` to create an isolated workspace
+- Do NOT proceed on main/master without explicit user consent
+
+If already in a secondary worktree → proceed.
+
+**Tools:** Fetch TeamCreate, TaskCreate, SendMessage, TaskList, TaskUpdate via ToolSearch.
 
 ### Step 1: Read and Analyze Plan
 

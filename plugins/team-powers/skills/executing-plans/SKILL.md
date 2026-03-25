@@ -15,6 +15,21 @@ Load plan, review critically, execute all tasks, report when complete.
 
 ## The Process
 
+### Step 0: Ensure Workspace Isolation
+
+Before anything else, check if you're already in an isolated worktree:
+
+```bash
+# Check if current directory is a worktree (not the main repo)
+git worktree list
+```
+
+If the current directory is the **main working tree** (first line of output) and you're on `main`/`master`:
+- **REQUIRED:** Invoke `team-powers:using-git-worktrees` to create an isolated workspace
+- Do NOT proceed on main/master without explicit user consent
+
+If already in a secondary worktree → proceed.
+
 ### Step 1: Load and Review Plan
 1. Read plan file
 2. Review critically - identify any questions or concerns about the plan

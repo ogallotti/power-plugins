@@ -78,3 +78,21 @@ This plugin uses the **Agent Teams** paradigm (TeamCreate, TaskCreate, SendMessa
 **Transition point:** If parallel subagents need to communicate with each other or you're hitting context limits, Agent Teams are the natural next step.
 
 When the task involves multiple areas of expertise, use `team-powers:composing-agent-teams` to dynamically decide team composition.
+
+## Stale Worktree Check
+
+On session start, if the project is a git repository, check for stale worktrees:
+
+```bash
+git worktree list
+```
+
+If there are secondary worktrees (lines beyond the first), mention them briefly to the user:
+
+> "Found existing worktrees from previous sessions: `feature/auth` (.worktrees/auth), `feature/billing` (.worktrees/billing). Want me to clean up any of these?"
+
+**Rules:**
+- Only mention, never auto-delete
+- If the user says no or ignores it, drop it — don't bring it up again
+- If the user asks to clean up, use `git worktree remove <path>` and `git branch -d <branch>`
+- This is informational, not blocking — proceed with whatever the user asked for
