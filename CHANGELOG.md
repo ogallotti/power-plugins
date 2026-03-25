@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.2.0] - 2026-03-24
+
+### Added
+- **`/simplify` integrado ao fluxo**: passo obrigatório após todas as tasks completarem, antes do finishing. Roda 3 agentes paralelos de review (code reuse, code quality, efficiency) sobre o diff completo. Aplicado em `executing-plans`, `team-driven-development` e `finishing-a-development-branch`.
+- **`/security-review` condicional**: o `finishing-a-development-branch` agora escaneia o diff por áreas sensíveis (auth, APIs, queries, crypto, input de usuário, dependências novas). Se detectar, oferece `/security-review` ao usuário. Se não, pula silenciosamente.
+- **Worktree guard obrigatório**: `executing-plans` e `team-driven-development` agora têm Step 0 que verifica se está em worktree isolado. Se está em `main`/`master`, invoca `using-git-worktrees` antes de prosseguir.
+- **Check de worktrees órfãos**: no início de cada sessão, o agente verifica `git worktree list` e avisa sobre worktrees de sessões anteriores, oferecendo cleanup. Não bloqueia — apenas informa.
+- **Prompt de instalação rápida**: seção no topo do README com prompt copy-paste para instalação automatizada no Claude Code (incluindo desabilitação do Superpowers se presente).
+
 ## [1.1.0] - 2026-03-23
 
 ### Upstream Sync
