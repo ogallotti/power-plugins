@@ -9,7 +9,7 @@ description: Use when implementation is complete, all tests pass, and you need t
 
 Guide completion of development work by presenting clear options and handling chosen workflow.
 
-**Core principle:** Verify tests → Simplify → Present options → Execute choice → Clean up.
+**Core principle:** Verify tests → Simplify → Security review (if applicable) → Present options → Execute choice → Clean up.
 
 **Announce at start:** "I'm using the finishing-a-development-branch skill to complete this work."
 
@@ -43,7 +43,27 @@ Stop. Don't proceed to Step 2.
 
 **Skip if:** The calling skill (executing-plans or team-driven-development) already ran simplify in a previous step.
 
-### Step 3: Determine Base Branch
+### Step 3: Security Review (conditional)
+
+Scan the diff for security-sensitive changes. Look for:
+- Authentication or authorization logic
+- API endpoints, route handlers, middleware
+- Database queries, ORM usage, raw SQL
+- Cryptography, token generation, secrets handling
+- User input processing, file uploads, redirects
+- Environment variables, config with credentials
+- Dependency additions (new packages)
+
+**If any of the above are present**, offer the review:
+
+> "This implementation touches security-sensitive areas ([list what was detected]). Want me to run a `/security-review` before finishing?"
+
+- If **yes**: run `/security-review`, fix any findings, commit
+- If **no**: proceed to next step
+
+**If none detected:** skip silently.
+
+### Step 4: Determine Base Branch
 
 ```bash
 # Try common base branches
@@ -52,7 +72,7 @@ git merge-base HEAD main 2>/dev/null || git merge-base HEAD master 2>/dev/null
 
 Or ask: "This branch split from main - is that correct?"
 
-### Step 4: Present Options
+### Step 5: Present Options
 
 Present exactly these 4 options:
 
@@ -69,7 +89,7 @@ Which option?
 
 **Don't add explanation** - keep options concise.
 
-### Step 5: Execute Choice
+### Step 6: Execute Choice
 
 #### Option 1: Merge Locally
 
@@ -90,7 +110,7 @@ git merge <feature-branch>
 git branch -d <feature-branch>
 ```
 
-Then: Cleanup worktree (Step 6)
+Then: Cleanup worktree (Step 7)
 
 #### Option 2: Push and Create PR
 
@@ -109,7 +129,7 @@ EOF
 )"
 ```
 
-Then: Cleanup worktree (Step 6)
+Then: Cleanup worktree (Step 7)
 
 #### Option 3: Keep As-Is
 
@@ -137,9 +157,9 @@ git checkout <base-branch>
 git branch -D <feature-branch>
 ```
 
-Then: Cleanup worktree (Step 6)
+Then: Cleanup worktree (Step 7)
 
-### Step 6: Cleanup Worktree
+### Step 7: Cleanup Worktree
 
 **For Options 1, 2, 4:**
 
