@@ -85,7 +85,11 @@ For small teams (3 teammates), one reviewer handles both stages sequentially.
 
 After all tasks complete, reviewer does final review across ALL changes focusing on integration between domains, consistency, and plan completeness.
 
-### Step 7: Finish
+### Step 7: Simplify
+
+**REQUIRED:** Run `/simplify` to review all changed code for reuse, quality, and efficiency. This launches 3 parallel review agents on the full diff. Fix any issues found and commit.
+
+### Step 8: Finish
 
 **REQUIRED:** Use `team-powers:finishing-a-development-branch` to verify tests, present options, clean up.
 

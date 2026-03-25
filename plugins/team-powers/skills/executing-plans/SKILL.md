@@ -29,9 +29,16 @@ For each task:
 3. Run verifications as specified
 4. Mark as completed
 
-### Step 3: Complete Development
+### Step 3: Simplify
 
 After all tasks complete and verified:
+- **REQUIRED:** Run `/simplify` to review all changed code for reuse, quality, and efficiency
+- This launches 3 parallel review agents (code reuse, code quality, efficiency) on the full diff
+- Fix any issues found, commit the improvements
+
+### Step 4: Complete Development
+
+After simplify pass:
 - Announce: "I'm using the finishing-a-development-branch skill to complete this work."
 - **REQUIRED SUB-SKILL:** Use team-powers:finishing-a-development-branch
 - Follow that skill to verify tests, present options, execute choice
