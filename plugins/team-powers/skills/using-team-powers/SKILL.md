@@ -79,6 +79,14 @@ This plugin uses the **Agent Teams** paradigm (TeamCreate, TaskCreate, SendMessa
 
 When the task involves multiple areas of expertise, use `team-powers:composing-agent-teams` to dynamically decide team composition.
 
+## Worktree-First Development
+
+**Worktrees are the default for ALL implementation work** — features, bugfixes, refactors. Not just when you need parallelism within your session.
+
+**Why:** The user frequently runs multiple Claude Code windows on the same project. If you work directly on `main`, you risk conflicting with another agent in another window. Always use `team-powers:using-git-worktrees` before writing code.
+
+**Exception:** Trivial one-file edits explicitly requested by the user (e.g., "fix this typo").
+
 ## Stale Worktree Check
 
 On session start, if the project is a git repository, check for stale worktrees:

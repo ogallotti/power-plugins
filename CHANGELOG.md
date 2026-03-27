@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.3.0] - 2026-03-27
+
+### Changed
+- **Worktree-first como padrão**: worktrees agora são o default para TODA implementação, não apenas trabalho paralelo. Motivação: múltiplas janelas do Claude Code podem estar no mesmo projeto simultaneamente.
+- **`using-git-worktrees`**: nova seção "Why Worktrees Are the Default" com `<IMPORTANT>` explicando a necessidade de isolamento multi-janela. Description reescrita para refletir que é obrigatório para qualquer mudança de código.
+- **`using-team-powers`**: nova seção "Worktree-First Development" carregada em toda sessão, garantindo que a regra de worktrees esteja sempre em contexto.
+- **`brainstorming`**: novo step 9 "Set up worktree" no checklist e diagrama de fluxo — worktree é criado antes de invocar writing-plans. Adicionada instrução explícita para usar `AskUserQuestion` tool em perguntas de múltipla escolha (em vez de opções em texto corrido).
+- **`writing-plans`**: contexto corrigido — worktree vem de `team-powers:using-git-worktrees`, não "created by brainstorming skill".
+
 ## [1.2.0] - 2026-03-24
 
 ### Added

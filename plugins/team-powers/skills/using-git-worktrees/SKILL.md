@@ -1,6 +1,6 @@
 ---
 name: using-git-worktrees
-description: Use when starting feature work that needs isolation from current workspace or before executing implementation plans - creates isolated git worktrees with smart directory selection and safety verification
+description: Use before ANY implementation work (features, bugfixes, refactors) - worktrees are the default for all code changes, not just parallel work, because other agents may be working on the same project from different windows
 ---
 
 # Using Git Worktrees
@@ -12,6 +12,16 @@ Git worktrees create isolated workspaces sharing the same repository, allowing w
 **Core principle:** Systematic directory selection + safety verification = reliable isolation.
 
 **Announce at start:** "I'm using the using-git-worktrees skill to set up an isolated workspace."
+
+## Why Worktrees Are the Default
+
+<IMPORTANT>
+Worktrees are NOT just for parallel features within the same session. They are the **default for ALL implementation work** — even a single feature in a single session.
+
+**The reason:** Users frequently run multiple Claude Code windows on the same project simultaneously. If two agents both work on `main` without worktrees, they create merge conflicts, overwrite each other's changes, and corrupt each other's work. A worktree guarantees isolation regardless of what other agents are doing in other windows.
+
+**Rule:** If you're about to write code that changes files in the repository, you should be in a worktree. The only exceptions are trivial one-file edits explicitly requested by the user (e.g., "fix this typo in README").
+</IMPORTANT>
 
 ## Directory Selection Process
 
