@@ -82,6 +82,19 @@ Per Jesse's rule "Fix broken things immediately":
 
 No .gitignore verification needed - outside project entirely.
 
+## Branch Naming
+
+Use **conventional branch naming** — never prefix with `worktree-`:
+
+| Type | Prefix | Example |
+|-|-|-|
+| Feature | `feat/` | `feat/langfuse-integration` |
+| Bugfix | `fix/` | `fix/credit-calculation` |
+| Refactor | `refactor/` | `refactor/auth-middleware` |
+| Chore | `chore/` | `chore/update-deps` |
+
+The branch name should be short, descriptive, and kebab-case. The worktree directory name is derived from the branch name (e.g., `feat/langfuse-integration` → `.worktrees/feat/langfuse-integration`).
+
 ## Creation Steps
 
 ### 1. Detect Project Name

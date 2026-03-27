@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.3.2] - 2026-03-27
+
+### Added
+- **Convenção de branch naming**: seção "Branch Naming" em `using-git-worktrees` padronizando prefixos convencionais (`feat/`, `fix/`, `refactor/`, `chore/`). Proíbe prefixo `worktree-` que é redundante.
+
 ## [1.3.1] - 2026-03-27
 
 ### Fixed
