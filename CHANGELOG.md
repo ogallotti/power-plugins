@@ -9,6 +9,9 @@
 - **`brainstorming`**: novo step 9 "Set up worktree" no checklist e diagrama de fluxo — worktree é criado antes de invocar writing-plans. Adicionada instrução explícita para usar `AskUserQuestion` tool em perguntas de múltipla escolha (em vez de opções em texto corrido).
 - **`writing-plans`**: contexto corrigido — worktree vem de `team-powers:using-git-worktrees`, não "created by brainstorming skill".
 
+### Fixed
+- **Worktree cleanup perigoso**: renomeado "Stale Worktree Check" para "Existing Worktree Awareness". Agentes agora **nunca oferecem cleanup** de worktrees — outra janela do Claude Code pode estar ativamente trabalhando nelas. Cleanup só acontece se o usuário pedir explicitamente, com aviso de risco.
+
 ## [1.2.0] - 2026-03-24
 
 ### Added
