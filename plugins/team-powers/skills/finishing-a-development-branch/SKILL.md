@@ -43,7 +43,7 @@ Stop. Don't proceed to Step 2.
 
 **Skip if:** The calling skill (executing-plans or team-driven-development) already ran simplify in a previous step.
 
-### Step 3: Security Review (conditional)
+### Step 3: Security Review (automatic)
 
 Scan the diff for security-sensitive changes. Look for:
 - Authentication or authorization logic
@@ -54,12 +54,7 @@ Scan the diff for security-sensitive changes. Look for:
 - Environment variables, config with credentials
 - Dependency additions (new packages)
 
-**If any of the above are present**, offer the review:
-
-> "This implementation touches security-sensitive areas ([list what was detected]). Want me to run a `/security-review` before finishing?"
-
-- If **yes**: run `/security-review`, fix any findings, commit
-- If **no**: proceed to next step
+**If any of the above are present:** run `/security-review` silently. Fix any findings and commit. Only escalate to the user if a finding requires a product decision (e.g., "this endpoint exposes user data — is that intentional?").
 
 **If none detected:** skip silently.
 
@@ -72,22 +67,41 @@ git merge-base HEAD main 2>/dev/null || git merge-base HEAD master 2>/dev/null
 
 Or ask: "This branch split from main - is that correct?"
 
-### Step 5: Present Options
+### Step 5: Present Options or Auto-Finish
 
-Present exactly these 4 options:
+**First, check for a configured default** in the project's CLAUDE.md:
 
-```
-Implementation complete. What would you like to do?
-
-1. Merge back to <base-branch> locally
-2. Push and create a Pull Request
-3. Keep the branch as-is (I'll handle it later)
-4. Discard this work
-
-Which option?
+```bash
+grep -i "worktree-finish" CLAUDE.md 2>/dev/null
 ```
 
-**Don't add explanation** - keep options concise.
+**If a default is configured** (e.g., `worktree-finish: merge` or `worktree-finish: pr`):
+- Execute the configured option automatically (Step 6)
+- Report what was done: "Merge no main concluído. Worktree limpa."
+- Do NOT ask the user
+
+**If no default is configured (first time setup):**
+
+Use `AskUserQuestion` with descriptive labels and descriptions so the user understands each option:
+
+- **label:** "Merge locally" / **description:** "Merge the branch into main on your machine and clean up. Best for solo developers who want changes applied immediately."
+- **label:** "Create PR" / **description:** "Push the branch to GitHub and open a Pull Request for review. Best when you want to review the diff before merging, or work in a team."
+- **label:** "Always ask" / **description:** "Show these options every time a feature is completed. Best when it depends on the situation."
+
+**question:** "How should I finish completed work? I can save your choice so future agents don't ask again."
+
+After the user chooses, use `AskUserQuestion` again to offer saving the preference:
+
+- **question:** "Want me to save this as the project default? All future agents will use it automatically."
+- **label:** "Yes, save to CLAUDE.md" / **description:** "Adds worktree-finish setting to the project's CLAUDE.md. You won't be asked again."
+- **label:** "No, just this time" / **description:** "Use this option now but keep asking in the future."
+
+If yes: append `worktree-finish: <value>` to the project's CLAUDE.md and commit. If no: proceed with the chosen option for this time only.
+
+**Supported values for `worktree-finish` in CLAUDE.md:**
+- `merge` — merge locally + cleanup worktree (Option 1)
+- `pr` — push + create PR + cleanup worktree (Option 2)
+- `ask` — always ask (current behavior, also the default when not configured)
 
 ### Step 6: Execute Choice
 

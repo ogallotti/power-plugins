@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.4.0] - 2026-03-27
+
+### Added
+- **Auto-finish configurável**: `finishing-a-development-branch` agora verifica `worktree-finish` no CLAUDE.md do projeto. Se configurado (`merge` ou `pr`), finaliza automaticamente sem perguntar. Na primeira vez, pergunta ao usuário via `AskUserQuestion` com descrições claras e oferece salvar a preferência permanentemente.
+- **Convenção de branch naming**: seção "Branch Naming" em `using-git-worktrees` padronizando prefixos convencionais (`feat/`, `fix/`, `refactor/`, `chore/`). Proíbe prefixo `worktree-` que é redundante.
+
+### Changed
+- **Security review automático**: `finishing-a-development-branch` agora roda `/security-review` silenciosamente quando detecta áreas sensíveis. Só escala ao usuário se encontrar algo que exige decisão de produto.
+
 ## [1.3.2] - 2026-03-27
 
 ### Added
