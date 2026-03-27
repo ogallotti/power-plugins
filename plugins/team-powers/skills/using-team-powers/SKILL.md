@@ -87,20 +87,26 @@ When the task involves multiple areas of expertise, use `team-powers:composing-a
 
 **Exception:** Trivial one-file edits explicitly requested by the user (e.g., "fix this typo").
 
-## Stale Worktree Check
+## Existing Worktree Awareness
 
-On session start, if the project is a git repository, check for stale worktrees:
+On session start, if the project is a git repository, check for existing worktrees:
 
 ```bash
 git worktree list
 ```
 
-If there are secondary worktrees (lines beyond the first), mention them briefly to the user:
+If there are secondary worktrees (lines beyond the first), **mention them as context only** — they may be actively in use by another agent in another window:
 
-> "Found existing worktrees from previous sessions: `feature/auth` (.worktrees/auth), `feature/billing` (.worktrees/billing). Want me to clean up any of these?"
+> "Found existing worktrees: `feature/auth` (.worktrees/auth), `feature/billing` (.worktrees/billing). These may be in use by other agents — I'll leave them as-is."
+
+<IMPORTANT>
+**NEVER offer to clean up or delete worktrees.** Another Claude Code session may be actively working in them right now. Deleting an active worktree would destroy another agent's in-progress work.
+
+Only clean up a worktree if the **user explicitly and unprompted asks** to clean up a specific worktree. Even then, warn: "Are you sure? If another agent is working in this worktree, removing it will disrupt their work."
+</IMPORTANT>
 
 **Rules:**
-- Only mention, never auto-delete
-- If the user says no or ignores it, drop it — don't bring it up again
-- If the user asks to clean up, use `git worktree remove <path>` and `git branch -d <branch>`
+- Mention existing worktrees for awareness, never offer cleanup
+- Assume all worktrees are potentially active unless the user says otherwise
+- If the user explicitly asks to clean up, warn about potential active use before proceeding
 - This is informational, not blocking — proceed with whatever the user asked for
