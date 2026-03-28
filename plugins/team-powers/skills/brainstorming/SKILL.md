@@ -27,7 +27,7 @@ You MUST create a task for each of these items and complete them in order:
 4. **Propose 2-3 approaches** — with trade-offs and your recommendation
 5. **Present design** — in sections scaled to their complexity, get user approval after each section
 6. **Write design doc** — save to `docs/team-powers/specs/YYYY-MM-DD-<topic>-design.md` and commit
-7. **Spec review loop** — dispatch spec-document-reviewer with precisely crafted review context (never your session history); fix issues and re-dispatch until approved (max 3 iterations, then surface to human)
+7. **Spec self-review** — run inline checklist (placeholder scan, internal consistency, scope check, ambiguity check); fix issues directly
 8. **User reviews written spec** — ask user to review the spec file before proceeding
 9. **Set up worktree** — invoke `team-powers:using-git-worktrees` to create isolated workspace before any implementation begins
 10. **Transition to implementation** — invoke writing-plans skill to create implementation plan
@@ -44,8 +44,7 @@ digraph brainstorming {
     "Present design sections" [shape=box];
     "User approves design?" [shape=diamond];
     "Write design doc" [shape=box];
-    "Spec review loop" [shape=box];
-    "Spec review passed?" [shape=diamond];
+    "Spec self-review" [shape=box];
     "User reviews spec?" [shape=diamond];
     "Set up worktree" [shape=box];
     "Invoke writing-plans skill" [shape=doublecircle];
@@ -59,10 +58,8 @@ digraph brainstorming {
     "Present design sections" -> "User approves design?";
     "User approves design?" -> "Present design sections" [label="no, revise"];
     "User approves design?" -> "Write design doc" [label="yes"];
-    "Write design doc" -> "Spec review loop";
-    "Spec review loop" -> "Spec review passed?";
-    "Spec review passed?" -> "Spec review loop" [label="issues found,\nfix and re-dispatch"];
-    "Spec review passed?" -> "User reviews spec?" [label="approved"];
+    "Write design doc" -> "Spec self-review";
+    "Spec self-review" -> "User reviews spec?";
     "User reviews spec?" -> "Write design doc" [label="changes requested"];
     "User reviews spec?" -> "Set up worktree" [label="approved"];
     "Set up worktree" -> "Invoke writing-plans skill";
@@ -120,12 +117,15 @@ digraph brainstorming {
 - Use elements-of-style:writing-clearly-and-concisely skill if available
 - Commit the design document to git
 
-**Spec Review Loop:**
-After writing the spec document:
+**Spec Self-Review:**
+After writing the spec document, run this checklist inline:
 
-1. Dispatch spec-document-reviewer subagent with precisely crafted review context — never your session history (see spec-document-reviewer-prompt.md)
-2. If Issues Found: fix, re-dispatch, repeat until Approved
-3. If loop exceeds 3 iterations, surface to human for guidance
+1. **Placeholder scan:** Search for TBD, TODO, incomplete sections, empty placeholders
+2. **Internal consistency:** Check for contradictions between sections (e.g., architecture vs feature descriptions)
+3. **Scope check:** Is it focused enough for a single implementation plan? If not, decompose.
+4. **Ambiguity check:** Are any requirements ambiguous enough to build the wrong thing? If so, choose an interpretation and make it explicit.
+
+Fix any issues inline. No need to re-review — just fix and move on.
 
 **User Review Gate:**
 After the spec review loop passes, ask the user to review the written spec before proceeding:

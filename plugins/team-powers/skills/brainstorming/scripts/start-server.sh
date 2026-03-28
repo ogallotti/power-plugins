@@ -83,11 +83,13 @@ else
   SCREEN_DIR="/tmp/brainstorm-${SESSION_ID}"
 fi
 
-PID_FILE="${SCREEN_DIR}/.server.pid"
-LOG_FILE="${SCREEN_DIR}/.server.log"
+CONTENT_DIR="${SCREEN_DIR}/content"
+STATE_DIR="${SCREEN_DIR}/state"
+PID_FILE="${STATE_DIR}/server.pid"
+LOG_FILE="${STATE_DIR}/server.log"
 
-# Create fresh session directory
-mkdir -p "$SCREEN_DIR"
+# Create fresh session directories
+mkdir -p "$CONTENT_DIR" "$STATE_DIR"
 
 # Kill any existing server
 if [[ -f "$PID_FILE" ]]; then
@@ -105,12 +107,6 @@ OWNER_PID="$(ps -o ppid= -p "$PPID" 2>/dev/null | tr -d ' ')"
 if [[ -z "$OWNER_PID" || "$OWNER_PID" == "1" ]]; then
   OWNER_PID="$PPID"
 fi
-
-# On Windows/MSYS2, the MSYS2 PID namespace is invisible to Node.js.
-# Skip owner-PID monitoring — the 30-minute idle timeout prevents orphans.
-case "${OSTYPE:-}" in
-  msys*|cygwin*|mingw*) OWNER_PID="" ;;
-esac
 
 # Foreground mode for environments that reap detached/background processes.
 if [[ "$FOREGROUND" == "true" ]]; then

@@ -1,5 +1,21 @@
 # Changelog
 
+## [1.5.0] - 2026-03-28
+
+### Upstream Sync
+Portadas mudanças do [Superpowers](https://github.com/obra/superpowers) v5.0.6.
+
+### Changed
+- **Inline self-review substitui subagent review loops**: `brainstorming` e `writing-plans` agora usam checklist inline em vez de despachar subagent reviewer. Regression testing do upstream mostrou que o overhead de ~25 min não melhorava qualidade — resultado idêntico com self-review.
+- **Brainstorm server: separação content/state**: HTML fica em `content/`, metadados do servidor (pid, events, logs) ficam em `state/`. Previne exposição de metadados via rota HTTP `/files/`.
+- **Owner-PID lifecycle fixes**: `EPERM` agora tratado como "processo vivo" (corrige self-termination com Tailscale SSH e daemons). Owner PID inválido no startup (WSL) desabilita monitoring e confia no idle timeout de 30 min. Removido carve-out específico de Windows/MSYS2.
+
+### Added
+- **Seção "No Placeholders" no writing-plans**: define red flags concretos que invalidam um plano — TBD, TODO, steps sem code blocks, "similar to Task N", referências a types não definidos.
+
+### Fixed
+- **writing-skills**: corrigido "only two fields" → "two required fields" com link para agentskills.io.
+
 ## [1.4.0] - 2026-03-27
 
 ### Added
