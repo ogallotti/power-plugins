@@ -144,7 +144,7 @@ What works perfectly for Opus might need more detail for Haiku. If you plan to u
 ## Skill structure
 
 <Note>
-  **YAML Frontmatter**: The SKILL.md frontmatter supports two fields:
+  **YAML Frontmatter**: The SKILL.md frontmatter requires two fields:
 
   * `name` - Human-readable name of the Skill (64 characters maximum)
   * `description` - One-line description of what the Skill does and when to use it (1024 characters maximum)

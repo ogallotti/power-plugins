@@ -103,26 +103,34 @@ git commit -m "feat: add specific feature"
 ```
 ````
 
+## No Placeholders
+
+A plan fails if it contains any of these — they are not steps, they are deferrals:
+
+- "TBD", "TODO", "implement later", "fill in details"
+- "Add appropriate error handling" / "add validation" / "handle edge cases"
+- "Write tests for the above" (without actual test code)
+- "Similar to Task N" (repeat the code — the engineer may read tasks out of order)
+- Steps that describe WHAT to do without showing HOW (code blocks are mandatory)
+- References to types/functions not defined in any task
+
+Every step must be executable by reading it alone.
+
 ## Remember
 - Exact file paths always
 - Complete code in plan (not "add validation")
 - Exact commands with expected output
-- Reference relevant skills with @ syntax
 - DRY, YAGNI, TDD, frequent commits
 
-## Plan Review Loop
+## Self-Review
 
-After writing the complete plan:
+After writing the complete plan, run this checklist inline:
 
-1. Dispatch a single plan-document-reviewer subagent (see plan-document-reviewer-prompt.md) with precisely crafted review context — never your session history. This keeps the reviewer focused on the plan, not your thought process.
-   - Provide: path to the plan document, path to spec document
-2. If Issues Found: fix the issues, re-dispatch reviewer for the whole plan
-3. If Approved: proceed to execution handoff
+1. **Spec coverage:** Does every section/requirement in the spec have a task that implements it?
+2. **Placeholder scan:** Check for any red flags from the "No Placeholders" section above
+3. **Type consistency:** Are types, method signatures, and property names consistent across tasks?
 
-**Review loop guidance:**
-- Same agent that wrote the plan fixes it (preserves context)
-- If loop exceeds 3 iterations, surface to human for guidance
-- Reviewers are advisory — explain disagreements if you believe feedback is incorrect
+Fix any issues inline. No need to re-review — just fix and move on.
 
 ## Execution Handoff
 

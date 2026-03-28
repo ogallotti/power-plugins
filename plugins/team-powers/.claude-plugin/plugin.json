@@ -1,7 +1,7 @@
 {
   "name": "team-powers",
   "description": "Agent Teams plugin: dynamic specialist composition, shared task lists, inter-teammate reviews, TDD, systematic debugging",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "author": {
     "name": "Gallotti"
   },
