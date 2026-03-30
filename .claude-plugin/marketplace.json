@@ -15,6 +15,16 @@
       "author": {
         "name": "Gallotti"
       }
+    },
+    {
+      "name": "ship-safe",
+      "description": "AI-powered security scanner — 16 agents, 80+ attack classes, deep LLM analysis, CI mode",
+      "version": "3.0.0",
+      "source": "./plugins/ship-safe",
+      "author": {
+        "name": "asamassekou10"
+      },
+      "homepage": "https://github.com/asamassekou10/ship-safe"
     }
   ]
 }
